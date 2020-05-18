@@ -79,7 +79,7 @@ def main():
     print("After Tuning the Parameters: ")
     trainSVM(X_train, X_test, y_train, y_test, -1)
     trainRF(X_train, X_test, y_train, y_test, 1000, -1)
-    trainKNN(X_train, X_test, y_train, y_test, -1, 3)
+    trainKNN(X_train, X_test, y_train, y_test, -1, 20)
     print("After tuning the parameters. Random Forest's accuracy increase 5~6% and KNN's accuracy increase up to 9%\n")
     print("SVM > Random Forest > KNN")
 main()
