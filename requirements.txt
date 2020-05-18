@@ -1,0 +1,4 @@
+tensorflow==2.2.0-rc3
+torch
+torchvision
+matplotlib
