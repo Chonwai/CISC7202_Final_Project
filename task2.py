@@ -4,6 +4,7 @@ from tensorflow import keras
 import tensorflow as tf
 import os
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def plot_image(i, predictions_array, true_label, img):
     predictions_array, true_label, img = predictions_array, true_label[i], img[i]
@@ -50,9 +51,9 @@ train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 model = keras.Sequential([
-    keras.layers.Conv2D(64, (3, 3), activation='relu',
-                        input_shape=(28, 28, 1)),
-    keras.layers.ZeroPadding2D((1, 1)),
+    keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+    # keras.layers.ZeroPadding2D((1,1)),
+    keras.layers.Conv2D(64, (3, 3), activation='relu'),
     keras.layers.Conv2D(64, (3, 3), activation='relu'),
     keras.layers.MaxPooling2D(pool_size=(2, 2)),
     # keras.layers.Conv2D(128, (3, 3), activation='relu'),
@@ -67,21 +68,21 @@ model = keras.Sequential([
     # keras.layers.ZeroPadding2D((1,1)),
     # keras.layers.Conv2D(256, (3, 3), activation='relu'),
     # keras.layers.MaxPooling2D(pool_size=(2, 2)),
-    keras.layers.GlobalMaxPool2D(),
-    keras.layers.Dense(512, activation='relu'),
-    keras.layers.Dropout(0.3),
-    keras.layers.Dense(512, activation='relu'),
-    keras.layers.Dropout(0.3),
+    keras.layers.Flatten(),
+    keras.layers.Dense(256, activation='relu'),
+    keras.layers.Dropout(0.5),
+    keras.layers.Dense(256, activation='relu'),
+    keras.layers.Dropout(0.5),
     keras.layers.Dense(10, activation='softmax')
 ])
 
 model.compile(
-    optimizer='adam',
+    optimizer=tf.keras.optimizers.RMSprop(),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy']
 )
 
-model.fit(train_images, train_labels, epochs=300)
+model.fit(train_images, train_labels, batch_size=2000, epochs=200)
 
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 
