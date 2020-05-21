@@ -52,33 +52,44 @@ train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 model = keras.Sequential([
-    keras.layers.Conv2D(32, kernel_size=(
-        3, 3), activation='relu', input_shape=(28, 28, 1)),
+    keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+    keras.layers.ZeroPadding2D((1,1)),
     keras.layers.Conv2D(64, (3, 3), activation='relu'),
     keras.layers.MaxPooling2D(pool_size=(2, 2)),
-    # keras.layers.Dropout(0.3),
+    # keras.layers.Conv2D(128, (3, 3), activation='relu'),
+    # keras.layers.ZeroPadding2D((1,1)),
+    # keras.layers.Conv2D(128, (3, 3), activation='relu'),
+    # keras.layers.MaxPooling2D(pool_size=(2, 2)),
+    # keras.layers.Conv2D(256, (3, 3), activation='relu'),
+    # keras.layers.ZeroPadding2D((1,1)),
+    # keras.layers.Conv2D(256, (3, 3), activation='relu'),
+    # keras.layers.ZeroPadding2D((1,1)),
+    # keras.layers.Conv2D(256, (3, 3), activation='relu'),
+    # keras.layers.ZeroPadding2D((1,1)),
+    # keras.layers.Conv2D(256, (3, 3), activation='relu'),
+    # keras.layers.MaxPooling2D(pool_size=(2, 2)),
     keras.layers.GlobalMaxPool2D(),
-    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dense(512, activation='relu'),
     keras.layers.Dropout(0.3),
-    keras.layers.Dense(128, activation='relu'),
-    # keras.layers.Dropout(0.3),
-    keras.layers.Dense(10)
+    keras.layers.Dense(512, activation='relu'),
+    keras.layers.Dropout(0.3),
+    keras.layers.Dense(10, activation='softmax')
 ])
 
 model.compile(
-    optimizer='RMSProp',
+    optimizer='adam',
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy']
 )
 
-model.fit(train_images, train_labels, epochs=50)
+model.fit(train_images, train_labels, epochs=300)
 
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 
 print('\nTest accuracy:', test_acc)
 
 probability_model = tf.keras.Sequential(
-    [model, keras.layers.Dense(10, activation='softmax'), ])
+    [model])
 
 predictions = probability_model.predict(test_images)
 
