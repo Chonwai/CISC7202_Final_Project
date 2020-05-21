@@ -43,8 +43,6 @@ fashion_mnist = keras.datasets.fashion_mnist
 train_images = train_images[..., np.newaxis]
 test_images = test_images[..., np.newaxis]
 
-print(len(train_labels))
-
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress',
                'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
