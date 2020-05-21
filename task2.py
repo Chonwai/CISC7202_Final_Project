@@ -52,8 +52,9 @@ train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 model = keras.Sequential([
-    keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(28, 28, 1)),
-    keras.layers.ZeroPadding2D((1,1)),
+    keras.layers.Conv2D(64, (3, 3), activation='relu',
+                        input_shape=(28, 28, 1)),
+    keras.layers.ZeroPadding2D((1, 1)),
     keras.layers.Conv2D(64, (3, 3), activation='relu'),
     keras.layers.MaxPooling2D(pool_size=(2, 2)),
     # keras.layers.Conv2D(128, (3, 3), activation='relu'),
