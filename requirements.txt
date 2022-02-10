@@ -1,4 +1,4 @@
-tensorflow==2.2.0-rc3
+tensorflow==2.5.3
 torch
 torchvision
 matplotlib
